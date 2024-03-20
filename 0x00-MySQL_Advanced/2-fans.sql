@@ -2,4 +2,5 @@
 
 SELECT origin, fans AS nb_fans
 FROM metal_bands
+GROUP by origin
 ORDER by nb_fans DESC;
