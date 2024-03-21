@@ -1,4 +1,5 @@
--- creates a function that divides (and returns) the first by the second number
+-- creates a function that divides (and returns)
+-- the first by the second number
 DROP FUNCTION IF EXISTS SafeDiv;
 
 DELIMITER //
