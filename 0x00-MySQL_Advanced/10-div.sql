@@ -9,7 +9,7 @@ BEGIN
 	DECLARE ans FLOAT DEFAULT 0;
 
 	IF b != 0 THEN
-		SET result = a / b;
+		SET ans = CAST(a AS FLOAT) / b;
 	END IF;
 
 	RETURN ans;
