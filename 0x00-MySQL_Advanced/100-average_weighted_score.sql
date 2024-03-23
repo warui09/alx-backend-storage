@@ -8,7 +8,7 @@ BEGIN
 	DECLARE sum_weighted_score FLOAT DEFAULT 0;
 
 	SELECT SUM(corrections.score * projects.weight)
-		INTO weighted_score
+		INTO sum_weighted_score
 		FROM corrections
 			INNER JOIN projects
 			ON corrections.project_id = projects.id
