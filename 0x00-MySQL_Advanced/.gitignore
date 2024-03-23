@@ -7,3 +7,5 @@ metal_bands.sql
 10-init.sql
 11-init.sql
 11-main.sql
+100-init.sql
+100-main.sql
