@@ -32,7 +32,7 @@ def show_stats():
 
     print("IPs:")
     for ip in ips:
-        print("{:<3}{}: {}".format("", ip.get("_id"), ip.get("total")))
+        print("{:<4}{}: {}".format("", ip.get("_id"), ip.get("total")))
 
 
 if __name__ == "__main__":
