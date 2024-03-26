@@ -3,7 +3,10 @@
 
 from pymongo import MongoClient
 
-if __name__ == "__main__":
+
+def show_stats():
+    """provides some stats about Nginx logs stored in MongoDB"""
+
     client = MongoClient("localhost")
     db = client.logs
 
@@ -19,3 +22,9 @@ if __name__ == "__main__":
 
     status_checks = len(list(db.nginx.find({"method": "GET", "path": "/status"})))
     print(f"{status_checks} status checks")
+
+
+if __name__ == "__main__":
+    """run script directly"""
+
+    show_stats()
