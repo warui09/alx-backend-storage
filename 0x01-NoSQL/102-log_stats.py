@@ -25,14 +25,14 @@ def show_stats():
     print("Methods:")
     for method in methods:
         count = len(list(db.nginx.find({"method": method})))
-        print("{:<3} method {}: {}".format("", method, count))
+        print("\tmethod {}: {}".format(method, count))
 
     status_checks = len(list(db.nginx.find({"method": "GET", "path": "/status"})))
     print(f"{status_checks} status checks")
 
     print("IPs:")
     for ip in ips:
-        print("{:<4}{}: {}".format("", ip.get("_id"), ip.get("total")))
+        print("\t{}: {}".format(ip.get("_id"), ip.get("total")))
 
 
 if __name__ == "__main__":
