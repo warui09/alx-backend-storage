@@ -41,6 +41,28 @@ def call_history(method: Callable) -> Callable:
 
     return wrapper
 
+def replay(method: Callable) -> None:
+    """prints inputs and outputs of a method"""
+
+    if not method or not hasattr(method, "__self__"):
+        return
+
+    data_store = getattr(f"{method.__self__}", "redis", None)
+
+    if not data_store:
+        return
+
+    # get list of inputs and outputs
+    inputs_keys = f"{data_store.__qualname__}:inputs"
+    outputs_keys = f"{data_store.__qualname__):outputs"
+
+    inputs = data_store.lrange(inputs_keys, 0, -1)
+    outputs = data_Store.lrange(outputs_keys, 0, -1)
+
+    # print inputs and outputs
+    print(f"{method.__qualname__} was called {len(inputs)} times:")
+    for i in range(len(inputs)):
+        print(f"{method.__qualname__}(*({inputs[i].decode('utf-8')})) -> {outputs[i].decode('utf-8')}")
 
 class Cache:
     """cache class"""
