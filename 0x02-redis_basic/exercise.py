@@ -41,6 +41,7 @@ def call_history(method: Callable) -> Callable:
 
     return wrapper
 
+
 def replay(method: Callable) -> None:
     """prints inputs and outputs of a method"""
 
@@ -54,7 +55,7 @@ def replay(method: Callable) -> None:
 
     # get list of inputs and outputs
     inputs_keys = f"{data_store.__qualname__}:inputs"
-    outputs_keys = f"{data_store.__qualname__):outputs"
+    outputs_keys = f"{data_store.__qualname__}:outputs"
 
     inputs = data_store.lrange(inputs_keys, 0, -1)
     outputs = data_Store.lrange(outputs_keys, 0, -1)
@@ -62,7 +63,10 @@ def replay(method: Callable) -> None:
     # print inputs and outputs
     print(f"{method.__qualname__} was called {len(inputs)} times:")
     for i in range(len(inputs)):
-        print(f"{method.__qualname__}(*({inputs[i].decode('utf-8')})) -> {outputs[i].decode('utf-8')}")
+        print(
+            f"{method.__qualname__}(*({inputs[i].decode('utf-8')})) -> {outputs[i].decode('utf-8')}"
+        )
+
 
 class Cache:
     """cache class"""
