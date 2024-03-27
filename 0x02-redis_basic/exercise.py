@@ -12,10 +12,33 @@ def count_calls(method: Callable) -> Callable:
 
     @wraps(method)
     def wrapper(self, *args, **kwargs):
-        self._redis.incr(method.__qualname__)
+        """wrapper function to increment counter"""
+        self._redis.incr(f"{method.__qualname__}")
         return method(self, *args, **kwargs)
 
     setattr(wrapper, "__calls__", 0)
+    return wrapper
+
+
+def call_history(method: Callable) -> Callable:
+    """decorator to record calls to a method"""
+
+    @wraps(method)
+    def wrapper(self, *args, **kwargs):
+        """wrapper function to add calls to history"""
+
+        # convert args to string
+        args_str = str(args)
+
+        # log arguments to list
+        self._redis.rpush(f"{method.__qualname__}:inputs", args_str)
+
+        # get return value of method and add to list
+        result = method(self, *args, **kwargs)
+        result_str = str(result)
+        self._redis.rpush(f"{method.__qualname__}:outputs", result_str)
+        return result_str
+
     return wrapper
 
 
@@ -28,6 +51,7 @@ class Cache:
         self._redis = redis.Redis()
         self._redis.flushdb(True)
 
+    @call_history
     @count_calls
     def store(self, data: Union[str, bytes, int, float]) -> str:
         """put data in Redis using a random key"""
