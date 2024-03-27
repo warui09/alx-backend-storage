@@ -18,7 +18,7 @@ def show_stats():
     print("Methods:")
     for method in methods:
         count = len(list(db.nginx.find({"method": method})))
-        print("method {}: {}".format(method, count))
+        print("\tmethod {}: {}".format(method, count))
 
     status_checks = len(list(db.nginx.find({"method": "GET", "path": "/status"})))
     print(f"{status_checks} status checks")
