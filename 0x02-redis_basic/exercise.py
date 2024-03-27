@@ -14,6 +14,7 @@ class Cache:
         """class initiliazer"""
 
         self._redis = redis.Redis()
+        self._redis.flushdb(True)
 
     def store(self: Cache, data: Union[str, bytes, int, float]) -> str:
         """put data in Redis using a random key"""
