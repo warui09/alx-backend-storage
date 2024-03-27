@@ -41,14 +41,13 @@ def call_history(method: Callable) -> Callable:
 
     return wrapper
 
-
 def replay(method: Callable) -> None:
     """prints inputs and outputs of a method"""
 
     if not method or not hasattr(method, "__self__"):
         return
 
-    data_store = getattr(f"{method.__self__}", "redis", None)
+    data_store = getattr(method.__self__, "redis", None)
 
     if not data_store:
         return
@@ -58,10 +57,12 @@ def replay(method: Callable) -> None:
     outputs_keys = f"{data_store.__qualname__}:outputs"
 
     inputs = data_store.lrange(inputs_keys, 0, -1)
-    outputs = data_Store.lrange(outputs_keys, 0, -1)
+    outputs = data_store.lrange(outputs_keys, 0, -1)
+
+    fn_call_count = int(data_store.get(method.__qualname__))
 
     # print inputs and outputs
-    print(f"{method.__qualname__} was called {len(inputs)} times:")
+    print(f"{method.__qualname__} was called {fn_call_count} times:")
     for inpt, outpt in zip(inputs, outputs):
         print(
             f"{method.__qualname__}(*({inpt.decode('utf-8')})) -> {outpt.decode('utf-8')}"
